@@ -6,6 +6,7 @@ import { FieldWrapper } from "../field-wrapper";
 type InputFieldProps = ComponentProps<typeof Input> & {
     label: string;
     name: string;
+    containerClassName?: string;
 }
 
 
