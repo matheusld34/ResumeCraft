@@ -4,6 +4,7 @@ import { AIGenerationDropdown } from "./ai-generation-dropdown"
 import { Separator } from "@radix-ui/react-dropdown-menu"
 import { BasicInfoSection } from "./sections/basic-info"
 import { SummarySection } from "./sections/summary"
+import { MultiplesSections } from "./sections/multiples"
 
 export const InfoSidebar = () => {
     return (
@@ -20,6 +21,7 @@ export const InfoSidebar = () => {
             <BasicInfoSection />
             <Separator className="my-5" />
             <SummarySection />
+            <MultiplesSections />
         </aside>
     )
 }
