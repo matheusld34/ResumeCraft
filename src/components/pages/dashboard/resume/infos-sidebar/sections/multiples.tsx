@@ -1,9 +1,28 @@
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { BicepsFlexed, BriefcaseBusiness, FileBadge2, Globe, GraduationCap, Languages, Share2 } from "lucide-react";
-import { Fragment } from "react";
-import { MultipleDragList, MultipleDragItemData } from "../multiple-drag-list";
+import {
+    BicepsFlexed,
+    BriefcaseBusiness,
+    FileBadge2,
+    Globe,
+    GraduationCap,
+    Languages,
+    Share2,
+} from "lucide-react";
+import { Fragment, useState } from "react";
+import { MultipleDragItemData, MultipleDragList } from "../multiple-drag-list";
+import { ManageMultipleItemDialog } from "../multiple-drag-list/manage-multiple-item-dialog";
+import { useFormContext } from "react-hook-form";
+import { Separator } from "@/components/ui/separator";
 
 export const MultiplesSections = () => {
+    const { getValues } = useFormContext();
+
+    const [sectionToAdd, setSectionToAdd] = useState<MultipleDragItemData | null>(
+        null
+    );
+    const [initialData, setInitialData] = useState<MultipleDragItemData | null>(
+        null
+    );
+
     const sectionsKeys: MultipleDragItemData[] = [
         {
             formKey: "socialMedias",
@@ -55,6 +74,15 @@ export const MultiplesSections = () => {
             descriptionKey: "description",
         },
     ];
+
+    const onEdit = (section: MultipleDragItemData, index: number) => {
+        const currentValues = getValues();
+        const currentItems = currentValues.content[section.formKey];
+
+        setSectionToAdd(section);
+        setInitialData(currentItems[index]);
+    };
+
     return (
         <div>
             {sectionsKeys.map((section) => (
@@ -62,11 +90,25 @@ export const MultiplesSections = () => {
                     <Separator className="my-5" />
                     <MultipleDragList
                         data={section}
-                        onAdd={() => { }}
-                        onEdit={(index) => { }}
+                        onAdd={() => setSectionToAdd(section)}
+                        onEdit={(index) => onEdit(section, index)}
                     />
                 </Fragment>
             ))}
-        </div >
-    )
-}
+
+            {sectionToAdd && (
+                <ManageMultipleItemDialog
+                    initialData={initialData}
+                    data={sectionToAdd}
+                    open={!!sectionToAdd}
+                    setOpen={(value) => {
+                        if (!value) {
+                            setSectionToAdd(null);
+                            setInitialData(null);
+                        }
+                    }}
+                />
+            )}
+        </div>
+    );
+};
