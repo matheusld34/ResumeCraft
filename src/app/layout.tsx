@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/shared/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { setDefaultOptions } from "date-fns"
 import { ptBR } from "date-fns/locale";
+import { Client } from "@neondatabase/serverless";
+import { ClientProviders } from "@/components/shared/client-providers";
 
 const fontSans = Nunito_Sans({
   variable: "--font-sans",
@@ -34,16 +36,10 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen bg-background font-sans antialiased", fontTitle.variable, fontSans.variable)}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ClientProviders>
           {children}
-          <Toaster />
-        </ThemeProvider>
+        </ClientProviders>
       </body>
-    </html>
+    </html >
   );
 }
